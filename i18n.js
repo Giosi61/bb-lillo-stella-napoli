@@ -181,14 +181,14 @@ window.siteTranslations = {
     "zh": "空调"
   },
   "Check-in 11:00 · Check-out 02:00": {
-    "it": "Check-in 11:00 · Check-out 02:00",
-    "en": "Check-in 11:00 · Check-out 02:00",
-    "fr": "Arrivée à 11:00 · Départ à 02:00",
-    "de": "Check-in 11:00 · Check-out 02:00",
-    "es": "Entrada 11:00 · Salida 02:00",
-    "pl": "Zameldowanie 11:00 · Wymeldowanie 02:00",
-    "nl": "Inchecken 11:00 · Uitchecken 02:00",
-    "zh": "入住 11:00 · 退房 02:00"
+    "it": "Check-in dalle 12:00 alle 19:00 · Check-out entro le 10:30",
+    "en": "Check-in from 12:00 to 19:00 · Check-out by 10:30",
+    "fr": "Arrivée de 12:00 à 19:00 · Départ avant 10:30",
+    "de": "Check-in von 12:00 bis 19:00 · Check-out bis 10:30",
+    "es": "Entrada de 12:00 a 19:00 · Salida antes de las 10:30",
+    "pl": "Zameldowanie od 12:00 do 19:00 · Wymeldowanie do 10:30",
+    "nl": "Inchecken van 12:00 tot 19:00 · Uitchecken vóór 10:30",
+    "zh": "入住 12:00 至 19:00 · 退房 10:30 之前"
   },
   "Condizioni di pagamento": {
     "it": "Condizioni di pagamento",
