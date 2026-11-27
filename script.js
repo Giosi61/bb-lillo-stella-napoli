@@ -66,7 +66,7 @@
     event.preventDefault();
     const b=update();
     if(!b.valid||!form.reportValidity())return;
-    const lines=[t('Ciao! Vorrei richiedere disponibilità al B&B Lillo - Stella.'),`${t('Camera')}: ${t(b.r.name)}`,`${t('Check-in')}: ${fmtDate(checkin.value)} · 11:00`,`${t('Check-out')}: ${fmtDate(checkout.value)} · 02:00`,t('Soggiorno: {n} · Ospiti: {g}',{n:b.nights,g:b.count}),`${t('Camera')}: ${euros(b.roomCents/100)}`];
+    const lines=[t('Ciao! Vorrei richiedere disponibilità al B&B Lillo - Stella.'),`${t('Camera')}: ${t(b.r.name)}`,`${t('Check-in')}: ${fmtDate(checkin.value)} · 11:00`,`${t('Check-in')}: ${fmtDate(checkin.value)} · dalle 12:00 alle 19:00`,`${t('Check-out')}: ${fmtDate(checkout.value)} · entro le 10:30`,t('Soggiorno: {n} · Ospiti: {g}',{n:b.nights,g:b.count}),`${t('Camera')}: ${euros(b.roomCents/100)}`];
     if(b.extraCents)lines.push(`${t('Supplemento terzo ospite')}: ${euros(b.extraCents/100)}`);
     if(b.discountCents)lines.push(`${t('Sconto')}: −${euros(b.discountCents/100)}`);
     lines.push(`${t('Tassa di soggiorno')}: ${euros(b.taxCents/100)}`,`${t('Totale')}: ${euros(b.totalCents/100)}`,`${t('Modalità di pagamento')}: ${t(paymentNames[payment.value])}`);
