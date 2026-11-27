@@ -32,42 +32,4 @@
 </div></section>
 <section id="contatti" class="contacts section"><p class="eyebrow">04 — Contatti / Dove siamo</p><h2>Nel cuore di Napoli.</h2><div class="contact-grid"><div class="location"><a class="map-placeholder" href="https://www.google.com/maps/search/?api=1&amp;query=Via+Bernardo+Tanucci+24+Napoli" target="_blank" rel="noopener noreferrer"><span class="map-pin" aria-hidden="true">⌖</span><h3>Via Bernardo Tanucci 24</h3><p>Napoli · Apri la mappa e le indicazioni</p></a><figure class="cin-photo"><figcaption>Targa ufficiale CIN: IT063049C2JZ3ETHFA</figcaption><img src="assets/targa-cin.webp" width="617" height="334" alt="TARGA INGRESSO CIN NOME TEL — targa ufficiale del B&amp;B Lillo - Stella" loading="lazy"></figure></div><div class="contact-list"><a href="tel:+393396663166"><span>Telefono</span><strong>+39 339 666 3166</strong></a><a href="https://wa.me/393396663166" target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><strong>+39 339 666 3166</strong></a><a href="mailto:giuseppesezze@gmail.com"><span>Email</span><strong>giuseppesezze@gmail.com</strong></a><div><span>Orari</span><strong>Check-in dalle 12:00 alle 19:00 · Check-out entro le 10:30</strong></div><div><span>Pagamento</span><strong>Carta, bonifico o contanti secondo l’opzione scelta</strong></div></div></div><div class="legal-info"><h3>Cancellazioni e condizioni</h3><p>La richiesta su WhatsApp non costituisce una prenotazione confermata. Disponibilità, condizioni di cancellazione, eventuale rimborso dell'acconto e modalità di pagamento devono essere concordati con la struttura prima di confermare o versare un acconto.</p><h3>Privacy</h3><p>Il calcolatore funziona nel browser: date e preferenze vengono inserite nel messaggio WhatsApp solo quando lo apri. Invia il messaggio per condividere questi dati con la struttura. WhatsApp e Google Maps applicano le proprie informative privacy. Per informazioni sul trattamento dei dati o per esercitare i tuoi diritti, contatta la struttura tramite i recapiti indicati.</p></div><footer><span class="footer-brand"><img src="favicon.svg" width="28" height="28" alt="">B&B Lillo - Stella · Napoli</span><span>© 2026 · Prenota diretto senza commissioni</span></footer></section>
 </main><a class="floating-wa" href="https://wa.me/393396663166?text=Ciao%21%20Vorrei%20informazioni%20sul%20B%26B%20Lillo%20-%20Stella." target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l1.8-5.5A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 9c1 4 3 5 6 6l2-2-3-1-1 1-2-2 1-1-1-3Z"/></svg></a>
-<script>
-(function(){
-  var box = document.getElementById('airport-transfer');
-  var row = document.getElementById('transfer-row');
-  var totalEl = document.getElementById('grand-total');
-  var payment = document.getElementById('payment');
-  if(!box || !row || !totalEl) return;
-  var adjusting = false;
-  function parseEuro(t){ var n = parseFloat(String(t||'').replace(/[^0-9.,-]/g,'').replace(',','.')); return isNaN(n)?0:n; }
-  function formatEuro(n){ return (Math.round(n*100)/100).toString().replace('.',',') + '€'; }
-  function apply(){
-    var checked = box.checked;
-    row.hidden = !checked;
-    var base = parseEuro(totalEl.textContent);
-    // Se il totale mostrato include già i 10€ di un giro precedente, toglili per ritrovare la base
-    // Lo capiamo perché l'ultima applicazione è salvata in dataset
-    var already = totalEl.dataset.transferApplied === '1';
-    if(already) base = base - 10;
-    var next = checked ? base + 10 : base;
-    if(next !== parseEuro(totalEl.textContent)){
-      adjusting = true;
-      totalEl.textContent = formatEuro(next);
-      totalEl.dataset.transferApplied = checked ? '1' : '0';
-      adjusting = false;
-    } else {
-      totalEl.dataset.transferApplied = checked ? '1' : '0';
-    }
-  }
-  // Quando script.js ricalcola il totale, riapplica i 10€ se la casella è spuntata
-  var obs = new MutationObserver(function(){ if(adjusting) return; totalEl.dataset.transferApplied = '0'; apply(); });
-  obs.observe(totalEl, {childList:true, characterData:true, subtree:true});
-  box.addEventListener('change', function(){
-    // Forza un ricalcolo del preventivo originale, poi riapplica il trasferimento
-    if(payment){ payment.dispatchEvent(new Event('change', {bubbles:true})); }
-    setTimeout(apply, 60);
-  });
-})();
-</script>
 </body></html>
