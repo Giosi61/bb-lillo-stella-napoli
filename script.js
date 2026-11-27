@@ -34,7 +34,7 @@
     const n = valid ? nights : 0;
     // All monetary calculations use cents; city tax is itemized and never discounted.
     const roomCents=n*r.price*100, extraCents=count===3?n*2000:0, taxCents=n*count*500;
-    const transferCents = (transfer && transfer.checked) ? 1000 : 0;
+    const transferCents = (transfer && transfer.value === 'transfer') ? 1000 : 0;
     const rate=payment.value==='cash'?.15:payment.value==='deposit'?.20:0;
     const discountCents=Math.round((roomCents+extraCents)*rate);
     const stayCents=roomCents+extraCents-discountCents;
