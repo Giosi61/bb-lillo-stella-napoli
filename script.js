@@ -6,6 +6,7 @@
   const room = document.querySelector('#room');
   const guests = document.querySelector('#guests');
   const payment = document.querySelector('#payment');
+  const transfer = document.querySelector('#airport-transfer');
   const send = document.querySelector('#send-request');
   const error = document.querySelector('#booking-error');
   const status = document.querySelector('#booking-status');
@@ -33,19 +34,23 @@
     const n = valid ? nights : 0;
     // All monetary calculations use cents; city tax is itemized and never discounted.
     const roomCents=n*r.price*100, extraCents=count===3?n*2000:0, taxCents=n*count*500;
+    const transferCents = (transfer && transfer.checked) ? 1000 : 0;
     const rate=payment.value==='cash'?.15:payment.value==='deposit'?.20:0;
     const discountCents=Math.round((roomCents+extraCents)*rate);
     const stayCents=roomCents+extraCents-discountCents;
-    const totalCents=stayCents+taxCents;
+    const totalCents=stayCents+taxCents+transferCents;
     const depositCents=payment.value==='deposit'?Math.round(stayCents*.20):0;
     document.getElementById('extra-guest-row').hidden=!valid||count!==3;
     document.getElementById('discount-row').hidden=!valid||rate===0;
+    const transferRow = document.getElementById('transfer-row');
+    if (transferRow) transferRow.hidden = !valid || transferCents === 0;
     text('extra-guest-count',valid?`(${n} × ${euros(20)})`:'');
     text('extra-guest-total',euros(extraCents/100));
     text('summary-room',t(r.name));
     text('stay-description',valid?t('Soggiorno: {n} · Ospiti: {g}',{n,g:count}):t('Seleziona le date per il preventivo'));
     text('night-count',valid?`(${n} × ${euros(r.price)})`:'');
     text('room-total',euros(roomCents/100));text('tax-total',euros(taxCents/100));
+    if (document.getElementById('transfer-total')) text('transfer-total',euros(transferCents/100));
     text('discount-total',`−${euros(discountCents/100)}`);text('grand-total',euros(totalCents/100));
     text('deposit-summary',valid&&payment.value==='deposit'?t("Acconto indicativo: {deposit}. Saldo all'arrivo: {balance}, tassa inclusa.",{deposit:euros(depositCents/100),balance:euros((totalCents-depositCents)/100)}):'');
     error.hidden=!invalid;
@@ -54,7 +59,7 @@
     checkout.setCustomValidity(checkout.value?'':t('Seleziona entrambe le date per continuare.'));
     send.disabled=!valid;
     if(requestOpened) text('booking-status',t('Richiesta aperta su WhatsApp. Invia il messaggio e attendi la conferma della struttura.'));
-    return {r,count,nights,roomCents,extraCents,taxCents,discountCents,totalCents,depositCents,valid};
+    return {r,count,nights,roomCents,extraCents,taxCents,transferCents,discountCents,totalCents,depositCents,valid};
   }
   function resetRequest() {requestOpened=false;status.textContent='';update();}
   checkin.addEventListener('change',()=>{if(checkin.value&&(!checkout.value||checkout.value<=checkin.value))checkout.value=nextDay(checkin.value);update();});
@@ -69,7 +74,9 @@
     const lines=[t('Ciao! Vorrei richiedere disponibilità al B&B Lillo - Stella.'),`${t('Camera')}: ${t(b.r.name)}`,`${t('Check-in')}: ${fmtDate(checkin.value)} · 11:00`,`${t('Check-in')}: ${fmtDate(checkin.value)} · dalle 12:00 alle 19:00`,`${t('Check-out')}: ${fmtDate(checkout.value)} · entro le 10:30`,t('Soggiorno: {n} · Ospiti: {g}',{n:b.nights,g:b.count}),`${t('Camera')}: ${euros(b.roomCents/100)}`];
     if(b.extraCents)lines.push(`${t('Supplemento terzo ospite')}: ${euros(b.extraCents/100)}`);
     if(b.discountCents)lines.push(`${t('Sconto')}: −${euros(b.discountCents/100)}`);
-    lines.push(`${t('Tassa di soggiorno')}: ${euros(b.taxCents/100)}`,`${t('Totale')}: ${euros(b.totalCents/100)}`,`${t('Modalità di pagamento')}: ${t(paymentNames[payment.value])}`);
+    lines.push(`${t('Tassa di soggiorno')}: ${euros(b.taxCents/100)}`);
+    if(b.transferCents)lines.push(`${t('Trasferimento aeroporto')}: ${euros(b.transferCents/100)}`);
+    lines.push(`${t('Totale')}: ${euros(b.totalCents/100)}`,`${t('Modalità di pagamento')}: ${t(paymentNames[payment.value])}`);
     if(payment.value==='deposit')lines.push(t("Acconto indicativo: {deposit}. Saldo all'arrivo: {balance}, tassa inclusa.",{deposit:euros(b.depositCents/100),balance:euros((b.totalCents-b.depositCents)/100)}));
     lines.push(t('Gli sconti si applicano al soggiorno e al supplemento terzo ospite; la tassa di soggiorno resta separata. L\'acconto indicativo è il 20% del soggiorno scontato. Modalità di versamento e importi da confermare con la struttura.'),'',t('È disponibile? Potete confermare il preventivo e le condizioni di cancellazione e pagamento? Grazie!'));
     const href=`https://wa.me/393396663166?text=${encodeURIComponent(lines.join('\n'))}`;
